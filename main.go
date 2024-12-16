@@ -17,7 +17,10 @@ func main() {
 	// defer store.Close()
 	// log.Printf("Successfully Connected to MongoDB: %v", store)
 
+	store, err := NewMongoStore("mongodb://localhost:27017")
+	failOnError(err, "Failed to connect to Mongo")
+
 	// Start the server
-	server := NewServer(":8080", nil, nil)
+	server := NewAuthServer(":8080", store)
 	log.Fatal(server.ListenAndServer())
 }
