@@ -20,7 +20,10 @@ func main() {
 	store, err := NewMongoStore("mongodb://localhost:27017")
 	failOnError(err, "Failed to connect to Mongo")
 
-	// Start the server
-	server := NewAuthServer(":8080", store)
-	log.Fatal(server.ListenAndServer())
+	// Start the authSvr
+	authSvr := NewAuthServer(":8080", store)
+	dataSvr := NewDataServer(":8000", store)
+
+	go func() { log.Fatal(dataSvr.Run()) }()
+	log.Fatal(authSvr.ListenAndServer())
 }

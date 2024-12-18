@@ -45,8 +45,8 @@ func CreateJWT(user *User) (string, error) {
 	return tokenString, nil
 }
 
-// VerifyJWT verifies the JWT token and returns the token if it is valid
-func VerifyJWT(tokenString string) (*jwt.Token, error) {
+// ValidateJWT verifies the JWT token and returns the token if it is valid
+func ValidateJWT(tokenString string) (*jwt.Token, error) {
 	secret := []byte(os.Getenv("JWT_SECRET"))
 	token, err := jwt.ParseWithClaims(tokenString, &AuthClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return secret, nil
